@@ -1,0 +1,65 @@
+############### SET Rewrite ON ##################
+<ifmodule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+##api_client
+#RewriteRule ^api_hitung/post/?$ api/api_sandbox.php [L]
+#RewriteRule ^api_sandbox/get/?$ api/api_sandbox_get.php [L]
+##api_server
+RewriteRule ^sandboxm/post/?$ api/sandboxm.php [L]
+RewriteRule ^sandboxm/get/?$ api/sandboxm_get.php [L]
+RewriteRule ^modul/get/?$ api/produk_api.php [L]
+RewriteRule ^potong/get/?$ api/potongan.php [L]
+
+RewriteCond %{REQUEST_URI} /apiapp/([^/]+)
+RewriteRule ^(.*)$ api/load-api.php?mod=%1 [L]
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+##api_client
+RewriteRule ^api_app/?$ token/token_api.php?token=$1 [L]
+##api_server
+RewriteRule ^app/u/?$ token/token_app_v2.php?token=$1 [L]
+RewriteRule ^app/?$ token/token_app_v3.php?token=$1 [L]
+RewriteRule ^appm/?$ token/token_app_v4.php?token=$1 [L]
+RewriteRule ^appv/?$ token/tokenvid_v3.php?token=$1 [L]
+RewriteRule ^appv/u/?$ token/tokenvid_v2.php?token=$1 [L]
+RewriteRule ^api/([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ api/api_kertas.php?appid=$1&code=$2&mod=$3&id=$4 [L]
+RewriteRule ^apis/([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ api/api-kertas.php?appid=$1&code=$2&mod=$3&id=$4 [L]
+
+RewriteRule ^hitung/([^/]+)/?$ global/hit_potong.php?mod=$1 [L]
+RewriteRule ^cek/([^/]+)/?$ global/cek_ukuran.php?mod=$1 [L]
+RewriteRule ^cekm/([^/]+)/?$ global/cek_ukuranm.php?mod=$1 [L]
+RewriteRule ^custom/(.*) global/custom.php [L]
+RewriteRule ^counter/ global/counter.php [L]
+RewriteRule ^kertas/(.*) global/ajaxKertas.php?depart=$1 [L]
+RewriteRule ^bahan/(.*) global/ajaxbahan.php?depart=$1 [L]
+RewriteRule ^cari-harga/(.*) global/carihargaprint.php?depart=$1 [L]
+
+Options All -Indexes
+</ifmodule>
+
+#Kode untuk cache file selama 1 bulan
+<IfModule mod_expires.c>
+ExpiresActive On
+<FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|js|css|gif|jpg|jpeg|png|swf)$">
+ExpiresDefault A2419200
+</FilesMatch>
+</IfModule>
+
+# Enable gzip compression
+<ifModule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^application/x-javascript.*
+mod_gzip_item_exclude mime ^image/.*
+mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>

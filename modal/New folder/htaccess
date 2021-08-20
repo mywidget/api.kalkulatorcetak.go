@@ -1,0 +1,24 @@
+############### SET Rewrite ON ##################
+<ifmodule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /global/
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(.*)/$
+
+RewriteRule ^api/([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ api_kertas.php?appid=$1&code=$2&mod=$3&id=$4 [L]
+RewriteRule ^kertas/?$ ajaxKertas.php?depart=$1 [L]
+RewriteRule ^custom/?$ custom.php
+
+</ifmodule>
+############### SET Keep-Alive ##################
+<ifModule mod_headers.c>
+#Header set Connection keep-alive
+ Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"	
+ Header set Pragma "no-cache" 	
+ Header set Expires 0 
+</ifModule>

@@ -20,11 +20,11 @@
 	$appid = filterget('appid');
 	$cekAPPId = cekAPPId($appid);
 	
-	if($cekAPPId['appdomain']!=$domain AND $domain !=$AppDomain){
-		$data = array("akses" => 'N');
-		echo json_encode($data);
-		exit;
-	}
+	// if($cekAPPId['appdomain']!=$domain AND $domain !=$AppDomain){
+		// $data = array("akses" => 'N');
+		// echo json_encode($data);
+		// exit;
+	// }
 	
 	if($cekAPPId['status']==1){
 		$global = $cekAPPId['id'];

@@ -376,14 +376,6 @@
 				$pilihM2 = pilihM3($json['mesin'],$modul);
 			}
 		}
-		// $cek_mesin = JenisMesin($json['mesin'],'PrintDigital');
-		// print_r($_arr);
-		// echo $cek_mesin['jmesin'];
-		// if($cek_mesin['jmesin']=='PrintDigital'){
-		// $persen =0;
-		// echo 123;
-		// }
-		
 		
 		$datafinishing = array(
 		"lbrcetak" => $lbrcetak,

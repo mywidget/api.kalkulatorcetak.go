@@ -112,7 +112,7 @@
                 }
                 endif;
             ?>
-        </div>
+            </div>
         <nav aria-label="Page navigation example" class="mb-4 mt-<?= $mt; ?> ">
             <?php if($start <= $rowCount){ ?>
                 <a class="btn btn-lmore" href="https://api.kalkulatorcetak.go/apiapp/moreb/<?=$start;?>/<?=$limit;?>/<?= $_appid; ?>/<?= $_appsecret; ?>">Hitungan Lainnya</a>

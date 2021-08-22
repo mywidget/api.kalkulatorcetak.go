@@ -138,7 +138,8 @@
 		`gtbl_user`.`app_secret`
 		FROM
 		`api_key`
-		INNER JOIN `gtbl_user` ON (`api_key`.`id_user` = `gtbl_user`.`id_user`) where `gtbl_user`.`app_secret`='$app_secret' AND `api_key`.`app_id`='$app_id' AND  `api_key`.`domain`='$domain' AND `api_key`.`pub`='0'");
+		INNER JOIN `gtbl_user` ON (`api_key`.`id_user` = `gtbl_user`.`id_user`) 
+		");
 		if($sql_bhn->num_rows>0){
 			$rows=$sql_bhn->fetch_assoc();
 			$data = array('status'=>1,'appid'=>$rows['app_id'],'appsecret'=>$rows['app_secret'],'appdomain'=>$rows['domain'],'appexp'=>$rows['expire'],'id'=>$rows['id_user'],'lvl'=>$rows['level']);

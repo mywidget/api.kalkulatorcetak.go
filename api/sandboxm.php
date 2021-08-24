@@ -19,7 +19,7 @@
 
 	$arr = json_decode(file_get_contents("php://input"));
 	if(empty($arr)){
-		$hasil = array("akses" => 'N');
+		$hasil = array("akses" => 'N1');
 		echo json_encode($hasil);
 		exit;
 	}

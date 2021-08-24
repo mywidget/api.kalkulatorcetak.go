@@ -379,7 +379,6 @@
             foreach($products as $product) {
                 if($product['aktif']=='Y') {
                     if( ( strpos($product['jenis_mesin'], $search_filter) !== false || strpos($product['jenis_mesin'], ucwords($search_filter)) !== false || strpos($product['jenis_mesin'], ucfirst($search_filter)) !== false || strpos($product['jenis_mesin'], strtoupper($search_filter)) !== false || $product['jenis_mesin'] == $search_filter)) {
-						// $filtered_products[] = $product;
 						$filtered_products[] = array(
 						"kdmesin"         => $product['kdmesin'],
 						"jmesin"          => $product['jenis_mesin'],
@@ -447,7 +446,6 @@
             foreach($products as $product) {
                 if($product['aktif']=='Y') {
                     if($product['kdmesin'] == $search_filter){
-						// $filtered_products[] = $product;
 						$filtered_products[] = array(
 						"kdmesin"         => $product['kdmesin'],
 						"jmesin"          => $product['jenis_mesin'],

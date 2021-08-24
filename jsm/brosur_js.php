@@ -14,14 +14,7 @@
             $('#ketbrosur').keyup(function () {
                 $('.btnon').prop('disabled', this.value == "" ? true : false);
             });
-            // $('#jmlcetak').change(function () {
-                // var jmlc = $('#jmlcetak').val();
-                // if (jmlc > 50) {
-                    // $('.lembar').html('lbr');
-                    // } else {
-                    // $('.lembar').html('rim');
-                // }
-            // });
+           
         });
         $("#idkertas").attr("disabled", true);
         $('#pilihb' + mod).on('change', function () {
@@ -183,7 +176,7 @@
                         $("#detailtablebro").hide();
                         $('.detail').css('display', 'none');
                     }
-                    // $("#myBar").hide();
+                  
                     ClearInput();
                     } else {
                     $('.detail').css('display', 'none');
@@ -191,7 +184,7 @@
                     elem.style.width = width + '%';
                     $("#hidemyBar").removeClass("display-hidden");
                     $("#detailtablebro").hide();
-                    // $("#myBar").show();
+                   
                     $("#myBar").removeClass('w3-red').addClass('w3-green');
                     disableInput();
                 }
@@ -204,11 +197,6 @@
             var lbrcetak = parseFloat(document.getElementById("lbrcetak").value) + (2 * parseFloat(bleed));
             var tgcetak = parseFloat(document.getElementById("tgcetak").value) + (2 * parseFloat(bleed));
             var jmlcetak = document.getElementById("jmlcetak").value;
-            // if (jmlcetak > 50) {
-                // jmlcetak = jmlcetak;
-                // } else {
-                // jmlcetak = jmlcetak * rim;
-            // }
             var bahan = document.getElementById("bahan").value;
             var jmlwarna = document.getElementById("jmlwarna").value;
             var jmlwarna2 = document.getElementById("jmlwarna2").value;
@@ -321,7 +309,6 @@
 					data = myArr;
                     $("#here_table").append("");
                     if (myArr[0]['data']['akses'] == 'Y') {
-                    // console.log(data.length);
                         move('Y');
                         if ($('#here_table').length) {
                             $('#here_table tr:gt(0)').remove();
@@ -331,7 +318,7 @@
                             var x;
                             var ongkos_potong = 0;
                             for (i = 0; i < data.length; i++) {
-                            // console.log(data[i]['data']['totcetak']);
+                           
                                 if (data[i]['data']['ongpot'] == 'Y' && data[i]['data']['beratkertas'] != 0) {
                                     ongkos_potong = data[i]['data']['ongkos_potong'];
                                 }
@@ -349,7 +336,12 @@
                                 parseInt(data[i]['data']['finishing7']) + 
                                 parseInt(data[i]['data']['finishing8']) + 
                                 parseInt(data[i]['data']['finishing9']);
-                                profit = data[i]['data']['persen'];
+                                
+                                if (data[i]['data']["jenismesin"] !="PrintDigital") {
+                                    profit = data[i]['data']["persen"];
+                                }else{
+                                    profit = 0;
+                                }
                                 
                                 jual = (parseInt(totalk) * profit / 100) + parseInt(totalk);
                                 satuan = jual / jmlcetak / jml_satuan;
@@ -394,7 +386,13 @@
                                 parseInt(data[i]['data']['finishing7']) + 
                                 parseInt(data[i]['data']['finishing8']) + 
                                 parseInt(data[i]['data']['finishing9']);
-                                profit = parseInt(data[i]['data']['persen']);
+                                
+                                if (data[i]['data']["jenismesin"] !="PrintDigital") {
+                                    profit = data[i]['data']["persen"];
+                                }else{
+                                    profit = 0;
+                                }
+                                
                                 jual = (parseInt(totalk) * profit / 100) + parseInt(totalk);
                                 satuan = jual / jmlcetak / jml_satuan;
                                 // perrim = satuan * rim;

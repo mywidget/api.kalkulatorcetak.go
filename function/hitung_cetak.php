@@ -571,17 +571,21 @@
 				usort($data2, 'sortByOrder');
 				$data = [];
 				
-				foreach($data1 as $key => $value){
-					// echo $key;
-					// for($i = 0 ; $i<count($key); $i++){
-					if($key=='jml_total'){
-						$data[$key] = $value + $data2[0][$key];	
-						//$data[$key] = $value + $data2[0][$key];	
-						}else{
-						$data[$key] = $value.'|'.$data2[0][$key];
-						//$data[$key] = $value.'|'.$data2[0][$key];
+				foreach($data1 as $key => $value)
+				{
+					if (is_array( $key ) ) {
+						$j = count($key); 
+						} else { 	
+						$j = 1;
 					}
-					// }
+					for($i = 0 ; $i< $j ; $i++){
+						if($key=='jml_total')
+						{
+							$data[$key] = $value + $data2[0][$key];	
+							}else{
+							$data[$key] = $value.'|'.$data2[0][$key];
+						}
+					}
 				} //End foreach	
 				//	echo json_encode($data) . "<br><br><br>";
 				array_push($data10,$data);

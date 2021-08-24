@@ -364,7 +364,7 @@
                     var myArrr = JSON.parse(JSON.stringify(xmlhttp.responseText));
 					var myArr = JSON.parse(myArrr);
 					data = myArr;
-                    console.log(myArr[0]['data']['akses']);
+                    
                     $("#table_poster").html("");
                      if (myArr[0]['data']['akses'] == 'Y') 
                      {
@@ -379,12 +379,10 @@
                             var ongkos_potong = 0;
                             for (i = 0; i < data.length; i++) {
                                 
-                                if (data[i]['data']["ongpot"] == "Y" && data[i]['data']["jenismesin"] !="PrintDigital") {
+                                if (data[i]['data']["ongpot"] == "Y") {
                                     ongkos_potong = data[i]['data']["ongkos_potong"];
                                 }
-                                // if (data[i]["jenismesin"] == "PrintDigital") {
-                                // }else{
-                                // }
+                                
                                 //jmlcetak jenismesin
                                 totalk = parseInt(data[i]['data']["totcetak"]) +
                                 parseInt(data[i]['data']["totbhn"]) +
@@ -397,7 +395,13 @@
                                 parseInt(data[i]['data']["finishing4"]) +
                                 parseInt(data[i]['data']["finishing5"]) +
                                 parseInt(data[i]['data']["finishing6"]);
-                                profit = data[i]['data']["persen"];
+                                
+                                if (data[i]['data']["jenismesin"] !="PrintDigital") {
+                                    profit = data[i]['data']["persen"];
+                                }else{
+                                    profit = 0;
+                                }
+                                
                                 jual = (parseInt(totalk) * profit) / 100 + parseInt(totalk);
                                 satuan = jual / jmlcetak / jml_satuan;
                                 if(parseInt(data[i]['data']["jmlcetak"]) > rim){
@@ -441,7 +445,13 @@
                                 parseInt(data[i]['data']["finishing4"]) +
                                 parseInt(data[i]['data']["finishing5"]) +
                                 parseInt(data[i]['data']["finishing6"]);
-                                profit = data[i]['data']["persen"];
+                                
+                                if (data[i]['data']["jenismesin"] !="PrintDigital") {
+                                    profit = data[i]['data']["persen"];
+                                }else{
+                                    profit = 0;
+                                }
+                                
                                 jual = (parseInt(totalk) * profit) / 100 + parseInt(totalk);
                                 satuan = jual / jmlcetak / jml_satuan;
                                 if(parseInt(data[i]['data']["jmlcetak"]) > rim){

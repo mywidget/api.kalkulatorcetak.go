@@ -245,8 +245,8 @@
 							
 							$jmlcetakreal = ceil(($jmlcetak * $jml_satuan / $muat ) * $cetakbb);
 							
-							$jmlbhn= ceil(($jmlcetak * $jml_satuan ) / 1 );
-							
+							// $jmlbhn= ceil(($jmlcetak * $jml_satuan ) / 1 );
+							$jmlbhn= ceil(($jmlcetak * $jml_satuan ) / $muat );
 							
 							
 							// echo $NamaMesin . " - " . $Nm_Bhn .' - '. $muat . "<br>";
@@ -297,11 +297,7 @@
 							
 							$jmlrealcetak =  $jmlbhn + $insheet_;				
 							
-							// if($jmlrealcetak / $replatsetiap < 1){
-								// $replat = 1;
-								// }else{
-								// $replat = ceil($jmlrealcetak / $replatsetiap);
-							// }
+							
 							if ($jmlrealcetak > $replatsetiap and $replatsetiap > 1) {
 									$replat = ceil($jmlrealcetak / $replatsetiap);
 									} else {
@@ -387,9 +383,8 @@
 									$ongkos_potong = 0;
 								}
 								
-								// $jmlplano = ceil((($jmlbhn + $insheet_) * $set )/ $jmlpot2);
+								
 								$jmlplano = ceil((($jmlbhn + $insheet_) * $set ) / $jmlpot2);
-								// $totbhn = $hrgbhn * $jmlplano ;
 								$tot_ctp = 0;
 								$ctp = 0;
 								$beratkertas = (($lbrbhan * $tgbhan * $tblbhan * $jmlplano) / 10000000);
@@ -436,7 +431,10 @@
 								
 								}else{
 							$tot_lipat = 0;}
-							
+							if($jenis_mesin == 'PrintDigital' )
+							{
+							$totbhn = 0;
+							}
 							//Masukan data ke array
 							array_push($data, array(
 							"jmlcetak" => $jmlcetak,			
@@ -493,7 +491,7 @@
 							
 							
 							akhirbhn:					
-							break;
+							// break;
 						} // while bahan yyyyyyyyyyyyyy
 						loncat:
 						
@@ -507,7 +505,7 @@
 					
 					$x = $x + 1;
 					$lebarpot = $lebarcetak * $x;
-					break;
+					// break;
 				}//endwhile1
 				
 				

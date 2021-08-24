@@ -331,7 +331,7 @@ P2:
 function hitung_lipatan($lbrcetak,$tgcetak,$lebarcetak,$panjangcetak,$jilid,$set){
 	$ukuran_lipat = [];
 	$ukuran_lipat1 = [];
-	$ukuran_lipat2 = [];
+	$ukuran_lipat2 = [0];
 	
 	//echo "a";
 	

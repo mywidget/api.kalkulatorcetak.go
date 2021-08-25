@@ -180,6 +180,7 @@
                         $('.detail').css('display', 'block');
                         $("#myBar").removeClass('w3-green').addClass('w3-red');
                         } else {
+                         $('#here_table tr:gt(0)').remove();
                         $("#detailtablebro").hide();
                         $('.detail').css('display', 'none');
                     }
@@ -191,7 +192,7 @@
                     elem.style.width = width + '%';
                     $("#hidemyBar").removeClass("display-hidden");
                     $("#detailtablebro").hide();
-                    // $("#myBar").show();
+                     $('#here_table tr:gt(0)').remove();
                     $("#myBar").removeClass('w3-red').addClass('w3-green');
                     disableInput();
                 }
@@ -379,8 +380,7 @@
             xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xmlhttp.send(isi);
         }
-        CustomStyle();
-        
+       
         $("#cekukuran").click(function () {
             var jmlcetak = $('#jmlcetak').val();
             var ukuran = $('#ukuran').val();

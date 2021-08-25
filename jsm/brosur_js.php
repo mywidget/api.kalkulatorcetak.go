@@ -58,6 +58,26 @@
                     }
                 });
             });
+            //
+             $("#ukuran").change(function () {
+                var ukuran = $(this).val();
+                $.ajax({
+                    url: link + "/cariukuran/brosur/"+ukuran,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response[0] == 0.0) {
+                            $("#lbrcetak,#tgcetak").attr("readonly", false);
+                            $("#lbrcetak").val(response[0]);
+                            $("#tgcetak").val(response[1]);
+                            } else {
+                            $("#lbrcetak,#tgcetak").attr("readonly", true);
+                            $("#lbrcetak").val(response[0]);
+                            $("#tgcetak").val(response[1]);
+                        }
+                    },
+                });
+            });
             $("#lipat").change(function () {
                 var lipatbro = $('#lipat').val();
                 if (lipatbro > 0) {
@@ -80,29 +100,7 @@
                     $("#jmlcetak").show();
                 }
             });
-            $("#ukuran").change(function () {
-                var ukuran = $(this).val();
-                $.ajax({
-                    url: host + "/cek/cariukuran/",
-                    type: "POST",
-                    data: {
-                        ukuran: ukuran,
-                        app_id: app_id
-                    },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response[0] == 0.0) {
-                            $("#lbrcetak,#tgcetak").attr("readonly", false);
-                            $("#lbrcetak").val(response[0]);
-                            $("#tgcetak").val(response[1]);
-                            } else {
-                            $("#lbrcetak,#tgcetak").attr("readonly", true);
-                            $("#lbrcetak").val(response[0]);
-                            $("#tgcetak").val(response[1]);
-                        }
-                    },
-                });
-            });
+           
             $("#bahan").change(function () {
                 var deptid = $(this).val();
                 $.ajaxQueue({

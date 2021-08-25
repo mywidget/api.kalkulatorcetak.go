@@ -12,28 +12,26 @@
 	include "../class/data.inc.php";
 	include "../class/filter.inc.php";
 	
-	$appid = filterpost('app_id');
-	$mod = filterget('mod');
-	// $data = array('N');	
-	if($appid){
-		$cekAPPId = cekAPPId($appid);
-		$AppDomain  = AppDomain();
-		$AppDomain  = $AppDomain['site_name'];
-		if($cekAPPId['appdomain']!=$domain AND $domain !=$AppDomain){
-			$data = array("akses" => 'N','domain'=>$AppDomain);
-			echo json_encode($data);
-			exit;
-		}
-		
-		if($cekAPPId['status']==1){
-			$global = $cekAPPId['id'];
-			$_host = $cekAPPId['host'];
-			}else{
-			$global = 'a';
-			$_host = '';
-		}
-		
-		switch($mod){
+	$AppDomain  = AppDomain();
+	$AppDomain  = $AppDomain['site_name'];
+	$_domain = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+	
+	$code = filterget('code');
+	$appid = filterget('appid');
+	$cekAPPId = cekAPPId($appid_kertas);
+	// echo $appid_kertas;
+	if($cekAPPId['status']==1){
+		$global = $cekAPPId['id'];
+		}else{
+		$global = '';
+	}
+	if(empty($global))
+	{
+		$data[] = array("error login");
+		$someArray = json_encode($data, true);
+	}
+	else{
+		switch($code){
 			case "pond":
 			$lbrcetak = isset($_POST['lbrcetak']) ? $_POST['lbrcetak'] : '';
 			$tgcetak = isset($_POST['tgcetak']) ? $_POST['tgcetak'] : '';
@@ -135,9 +133,6 @@
 			}
 			break;
 		}
-		}else{
-		// echo 5;
-		$data = array('N');	
 	}
 	echo json_encode($data);
 ?>

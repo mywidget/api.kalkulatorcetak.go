@@ -33,6 +33,7 @@ RewriteRule ^api/([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ api/api_kertas.php?appid=$1&
 RewriteRule ^apis/([^/]+)/([^/]+)/([^/]+)/([^/]+)/?$ api/api-kertas.php?appid=$1&code=$2&mod=$3&id=$4 [L]
 
 RewriteRule ^hitung/([^/]+)/?$ global/hit_potong.php?mod=$1 [L]
+#//cek ukuran
 RewriteRule ^cek/([^/]+)/?$ global/cek_ukuran.php?mod=$1 [L]
 RewriteRule ^cekm/([^/]+)/?$ global/cek_ukuranm.php?mod=$1 [L]
 RewriteRule ^custom/(.*) global/custom.php [L]

@@ -10,16 +10,16 @@
 	require_once "../class/filter.inc.php";
     include __DIR__ . '/../class/Mobile_Detect.php';
 	include __DIR__ . '/../class/link.inc.php';
-  
-	// session_start();
-	$AppDomain  = AppDomain();
-	$AppDomain  = $AppDomain['site_name'];
-	$_domain = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
-	function my_sort($a,$b)
+  	function my_sort($a,$b)
 	{
 		if ($a==$b) return 0;
 		return ($a>$b)?-1:1;
 	}
+	// session_start();
+	$AppDomain  = AppDomain();
+	$AppDomain  = $AppDomain['site_name'];
+	$_domain = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+	
 	$code = filterget('code');
 	$appid = filterget('appid');
 	$cekAPPId = cekAPPId($appid_kertas);
@@ -34,6 +34,7 @@
 		$someArray = json_encode($data, true);
 		}else{
 		switch($code){
+		//case biaya
 			case "biaya":
 			$arrayk = ArrayBiaya($global);
 			// print_r($arrayk);
@@ -47,9 +48,12 @@
 			}
 			$someArray = json_encode($data, true);
 			break;
+			//
 			case "selkatbahan":
+			$id= filterget('id');
+			$mods= filterget('mod');
 			$arrays = ArrayKertas($global);
-			$search_items = array('id_kategori'=>$_GET['id']);
+			$search_items = array('id_kategori'=>$id);
 			$res = search($arrays['katbahan'], $search_items); 
 			foreach ($res as $current_array) { 
 				$data[] = array("id"=>$current_array['id_kategori'],"name"=>$current_array['nama_kategori']);
@@ -58,25 +62,28 @@
 			foreach ($arrays['katbahan'] as $current_key => $current_array) {
 				$mod = explode(" ",$current_array['modul']);
 				foreach ($mod as $key => $val) {
-					if($val==$_GET['mod'] AND $current_array['id_kategori']!=$_GET['id']){
+					if($val==$mods AND $current_array['id_kategori']!=$id){
 						$data[] = array("id"=>$current_array['id_kategori'],"name"=>$current_array['nama_kategori']);
 					}
 				}
 			}
 			$someArray = json_encode($data, true);
 			break;
+			//case kategori bahan
 			case "katbahan":
+			$mods= filterget('mod');
 			$arrayk = ArrayKertas($global);
 			foreach ($arrayk['katbahan'] as $current_key => $current_array) {
 				$mod = explode(" ",$current_array['modul']);
 				foreach ($mod as $key => $val) {
-					if($val==$_GET['mod']){
+					if($val==$mod){
 						$data[] = array("id"=>$current_array['id_kategori'],"name"=>$current_array['nama_kategori']);
 					}
 				}
 			}
 			$someArray = json_encode($data, true);
 			break;
+			//case plano
 			case "plano":
 			$arrays = ArrayPlano($global);
 			foreach ($arrays['plano'] as $current_key => $current_array) {
@@ -84,12 +91,14 @@
 			}
 			$someArray = json_encode($data, true);
 			break;
-			
+			//case ukuran
 			case "ukuran":
+			$id= filterget('id');
+			$mods= filterget('mod');
 			$arrays = ArrayUKertas($global);
 			if(isset($arrays))
 			{
-				$search_items = array('id'=>$_GET['id']);
+				$search_items = array('id'=>$id);
 				$res = search($arrays['kertas'], $search_items); 
 				foreach ($res as $current_array) 
 				{ 
@@ -101,7 +110,7 @@
 					$mod = explode(" ",$current_array['modul']);
 					foreach ($mod as $key => $val) 
 					{
-						if($val==$_GET['mod'] AND $current_array['id']!=$_GET['id'])
+						if($val==$mods AND $current_array['id']!=$id)
 						{
 							$data[] = array("id"=>$current_array['id'],"name"=>$current_array['ket_ukuran']);
 						}
@@ -119,20 +128,21 @@
 				$someArray = json_encode($json, true);
 			}
 			break;
-			
+			//case mesin
 			case "mesin":
+			$mod= filterget('mod');
 			$arrayk = ArrayMesinz($global);
 			foreach ($arrayk['mesin'] as $current_key => $current_array) {
 				$mod = explode(" ",$current_array['modul']);
 				foreach ($mod as $key => $val) {
-					if($val==$_GET['mod'] AND $current_array['aktif']=='Y'){
+					if($val==$mod AND $current_array['aktif']=='Y'){
 						$data[] = array("id"=>$current_array['kdmesin'],"name"=>$current_array['namamesin']);
 					}
 				}
 			}
 			$someArray = json_encode($data, true);
 			break;
-			
+			//case bahan
 			case "bahan":
 			$sql_bhn = $db->query("SELECT * FROM data_bahan where id_user='$global' AND publish='0'");
 			$rows=$sql_bhn->fetch_array();
@@ -143,6 +153,16 @@
 			break;
 			default:
 			$data[] = array("error");
+			$someArray = json_encode($data, true);
+			break;
+			
+			//case cari ukuran kertas
+			case "cariukuran":
+			$ukuran= filterget('id');
+			$data = array();
+			$ArrayUKertas = ArrayUKertas($global);
+			$value=pilih1Kertas($ArrayUKertas['kertas'],$ukuran);
+			$data = array(number_format($value['panjang'],1),number_format($value['lebar'],1),);
 			$someArray = json_encode($data, true);
 			break;
 		}

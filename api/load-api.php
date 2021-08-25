@@ -226,6 +226,8 @@
         <?php
         }
         break;	
+        
+        //case api mores
         case "mores":
         $GAPPID     = $std->app_id;
         $jenis      = array('secret'=>$std->secret,'app_id'=>$std->app_id,'domain'=>$std->domain,'start'=>$std->start,'limit'=>$std->limit);

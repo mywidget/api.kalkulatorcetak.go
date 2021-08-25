@@ -95,7 +95,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text">Bahan</span>
 					</div>
-					<select name="bahan" id="bahan" class="custom-select form-control" data-source="<?= $_link; ?>/katbahan/brosur/0" data-valueKey="id" data-displayKey="name" required>
+					<select name="bahan" id="bahan" class="custom-select form-control" required>
 					</select>
 				</div>
 			</div>
@@ -127,7 +127,7 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text">Mesin</span>
 					</div>
-					<select name="idmesin" id="idmesin" class="custom-select form-control" data-mesin="<?= $_link; ?>/mesin/<?= $mod; ?>/0" data-valueKey="id" data-displayKey="name" required>
+					<select name="idmesin" id="idmesin" class="custom-select form-control">
 					</select>
 				</div>
 			</div>

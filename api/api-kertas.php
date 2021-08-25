@@ -34,7 +34,7 @@
 		$someArray = json_encode($data, true);
 		}else{
 		switch($code){
-		//case biaya
+			//case biaya
 			case "biaya":
 			$arrayk = ArrayBiaya($global);
 			// print_r($arrayk);
@@ -76,7 +76,7 @@
 			foreach ($arrayk['katbahan'] as $current_key => $current_array) {
 				$mod = explode(" ",$current_array['modul']);
 				foreach ($mod as $key => $val) {
-					if($val==$mod){
+					if($val==$mods){
 						$data[] = array("id"=>$current_array['id_kategori'],"name"=>$current_array['nama_kategori']);
 					}
 				}
@@ -90,6 +90,21 @@
 				$data[] = array("id"=>$current_array['id'],"name"=>$current_array['ket_ukuran']);
 			}
 			$someArray = json_encode($data, true);
+			break;
+			//case kertas
+			case "kertas":
+			$id= filterget('id');
+			$ArrayBahan = ArrayBahanDua($global);
+			$jsonb = json_decode($ArrayBahan);
+			if(!empty($jsonb)){
+			$pilihB2 = pilih_kategori($jsonb->bahan, $id);
+			foreach ($pilihB2 as $val) {
+				$users_arr[] = array("id" => $val['Kd_Bhn'], "name" => $val['Nm_Bhn']);
+			}
+			}else{
+			$users_arr[] = array("id" => 0, "name" => "Pilih");
+			}
+			$someArray = json_encode($users_arr, true);
 			break;
 			//case ukuran
 			case "ukuran":
@@ -130,15 +145,24 @@
 			break;
 			//case mesin
 			case "mesin":
-			$mod= filterget('mod');
+			$mods= filterget('mod');
 			$arrayk = ArrayMesinz($global);
+			//cek array mesin
+			if(!empty($arrayk)){
 			foreach ($arrayk['mesin'] as $current_key => $current_array) {
 				$mod = explode(" ",$current_array['modul']);
 				foreach ($mod as $key => $val) {
-					if($val==$mod AND $current_array['aktif']=='Y'){
+					if($val==$mods AND $current_array['aktif']=='Y'){
 						$data[] = array("id"=>$current_array['kdmesin'],"name"=>$current_array['namamesin']);
 					}
 				}
+			}
+			}
+			else{
+			$data[] = array("id" => 0, "name" => "Pilih");
+			}
+			if($data==null){
+			$data[] = array("id" => 0, "name" => "Pilih");
 			}
 			$someArray = json_encode($data, true);
 			break;
@@ -147,10 +171,9 @@
 			$sql_bhn = $db->query("SELECT * FROM data_bahan where id_user='$global' AND publish='0'");
 			$rows=$sql_bhn->fetch_array();
 			$data = json_decode($rows['data_json'],true);
-			// $data1 = array("domain"=>"kalkulator.go");
-			// $merger = array_merge($data1,$data);
 			$someArray = json_encode($data, true);
 			break;
+			
 			default:
 			$data[] = array("error");
 			$someArray = json_encode($data, true);

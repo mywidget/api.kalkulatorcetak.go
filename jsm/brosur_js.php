@@ -14,7 +14,7 @@
             $('#ketbrosur').keyup(function () {
                 $('.btnon').prop('disabled', this.value == "" ? true : false);
             });
-           
+            
         });
         $("#idkertas").attr("disabled", true);
         $('#pilihb' + mod).on('change', function () {
@@ -35,6 +35,30 @@
         $(document).ready(function () {
             $('#lbrcetak').val('0');
             $('#tgcetak').val('0');
+            
+            $("#idmesin").filter(function () {
+                $.ajaxQueue({
+                    url: link + "/mesin/brosur/0",
+                    type: 'GET',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $("#idmesin").append("<option value='loading'>loading</option>");
+                        // $("#idmesin").attr("disabled", true);
+                    },
+                    success: function (response) {
+                        $("#idmesin option[value='loading']").remove();
+                        // $("#idmesin").attr("disabled", false);
+                        $("#idmesin").append("<option value=''>Pilih mesin</option>");
+                        var len = response.length;
+                        for (var i = 0; i < len; i++) {
+                            var id = response[i]['id'];
+                            var name = response[i]['name'];
+                            $("#idmesin").append("<option value='" + id + "'>" + name + "</option>");
+                        }
+                    }
+                });
+            });
+            
             $("#ukuran").filter(function () {
                 var deptid = 10;
                 $.ajaxQueue({
@@ -59,7 +83,7 @@
                 });
             });
             //
-             $("#ukuran").change(function () {
+            $("#ukuran").change(function () {
                 var ukuran = $(this).val();
                 $.ajax({
                     url: link + "/cariukuran/brosur/"+ukuran,
@@ -100,16 +124,35 @@
                     $("#jmlcetak").show();
                 }
             });
-           
-            $("#bahan").change(function () {
+            
+        //ajax filter bahan
+        $("#bahan").filter(function () {
+            $.ajaxQueue({
+                url: link + "/katbahan/brosur/10",
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#bahan").append("<option value='loading'>loading</option>");
+                    $("#bahan").attr("disabled", true);
+                },
+                success: function (response) {
+                    $("#bahan option[value='loading']").remove();
+                    $("#bahan").attr("disabled", false);
+                    $("#bahan").append("<option value=''>Pilih bahan</option>");
+                    var len = response.length;
+                    for (var i = 0; i < len; i++) {
+                        var id = response[i]['id'];
+                        var name = response[i]['name'];
+                        $("#bahan").append("<option value='" + id + "'>" + name + "</option>");
+                    }
+                }
+            });
+        });
+        $("#bahan").change(function () {
                 var deptid = $(this).val();
                 $.ajaxQueue({
-                    url: host + '/kertas/',
-                    type: 'post',
-                    data: {
-                        depart: deptid,
-                        app_id: app_id
-                    },
+                    url: link + "/kertas/brosur/"+deptid,
+                    type: 'get',
                     dataType: 'json',
                     success: function (response) {
                         var len = response.length;
@@ -123,42 +166,28 @@
                 });
             });
         });
-        $("#bahan").filter(function () {
-            $('select[data-source]').each(function () {
-                var $select = $(this);
-                $.ajax({
-                    url: $select.attr('data-source'),
-                    beforeSend: function () {
-                        $("#bahan").append("<option value='loading'>Loading</option>");
-                        $("#bahan").attr("disabled", true);
-                    },
-                    }).then(function (options) {
-                    $("#bahan option[value='loading']").remove();
-                    $("#bahan").attr("disabled", false);
-                    $("#bahan").append("<option value=''>Pilih bahan</option>");
-                    options.map(function (option) {
-                        var $option = $('<option>');
-                        $option.val(option[$select.attr('data-valueKey')]).text(option[$select.attr('data-displayKey')]);
-                        $select.append($option);
-                    });
-                });
-            });
-        });
-        $("#idmesin").filter(function () {
-            $('select[data-mesin]').each(function () {
-                var $select = $(this);
-                $select.append('<option value="0">Pilih mesin</option>');
-                $.ajax({
-                    url: $select.attr('data-mesin'),
-                    }).then(function (options) {
-                    options.map(function (option) {
-                        var $option = $('<option>');
-                        $option.val(option[$select.attr('data-valueKey')]).text(option[$select.attr('data-displayKey')]);
-                        $select.append($option);
-                    });
-                });
-            });
-        });
+        // $("#bahan").filter(function () {
+        // $('select[data-source]').each(function () {
+        // var $select = $(this);
+        // $.ajax({
+        // url: $select.attr('data-source'),
+        // beforeSend: function () {
+        // $("#bahan").append("<option value='loading'>Loading</option>");
+        // $("#bahan").attr("disabled", true);
+        // },
+        // }).then(function (options) {
+        // $("#bahan option[value='loading']").remove();
+        // $("#bahan").attr("disabled", false);
+        // $("#bahan").append("<option value=''>Pilih bahan</option>");
+        // options.map(function (option) {
+        // var $option = $('<option>');
+        // $option.val(option[$select.attr('data-valueKey')]).text(option[$select.attr('data-displayKey')]);
+        // $select.append($option);
+        // });
+        // });
+        // });
+        // });
+        
         function move(a) {
             var elem = document.getElementById("myBar");
             var width = 0;
@@ -174,7 +203,7 @@
                         $("#detailtablebro").hide();
                         $('.detail').css('display', 'none');
                     }
-                  
+                    
                     ClearInput();
                     } else {
                     $('.detail').css('display', 'none');
@@ -182,7 +211,7 @@
                     elem.style.width = width + '%';
                     $("#hidemyBar").removeClass("display-hidden");
                     $("#detailtablebro").hide();
-                   
+                    
                     $("#myBar").removeClass('w3-red').addClass('w3-green');
                     disableInput();
                 }
@@ -316,7 +345,7 @@
                             var x;
                             var ongkos_potong = 0;
                             for (i = 0; i < data.length; i++) {
-                           
+                                
                                 if (data[i]['data']['ongpot'] == 'Y' && data[i]['data']['beratkertas'] != 0) {
                                     ongkos_potong = data[i]['data']['ongkos_potong'];
                                 }
@@ -337,7 +366,7 @@
                                 
                                 if (data[i]['data']["jenismesin"] !="PrintDigital") {
                                     profit = data[i]['data']["persen"];
-                                }else{
+                                    }else{
                                     profit = 0;
                                 }
                                 
@@ -387,7 +416,7 @@
                                 
                                 if (data[i]['data']["jenismesin"] !="PrintDigital") {
                                     profit = data[i]['data']["persen"];
-                                }else{
+                                    }else{
                                     profit = 0;
                                 }
                                 
@@ -471,7 +500,7 @@
                         if (res[0].toString() == 'N') {
                             salert('warning', 'Oopss...', iMsg['U'] + '<br>Ukuran cetak - ' + lbrcetak + 'x' + tgcetak + ' cm<br>UK. ' + res[1] + ' - ' + res[2] + 'x' + res[3] + ' cm');
                             } else {
-                             counter('Brosur');
+                            counter('Brosur');
                             // move('N');
                             hitung();
                         }

@@ -15,10 +15,11 @@
     $get = filterget('mod');
     $domain = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
     $std    = json_decode(file_get_contents("php://input"));
-    $_SESSION['appid'] = $std->app_id;
-   
+    // $_SESSION['appid'] = $std->app_id;
+   // print_r($std);
     // echo $pagenum;
     switch($get){
+    
         case "morea":
         $start = $pagenum;
         $limit = $pagelimit;
@@ -230,8 +231,9 @@
         //case api mores
         case "mores":
         $GAPPID     = $std->app_id;
-        $jenis      = array('secret'=>$std->secret,'app_id'=>$std->app_id,'domain'=>$std->domain,'start'=>$std->start,'limit'=>$std->limit);
-        $sync       = curl(URL_API,json_encode($jenis));
+        $opsi      = array('secret'=>$std->secret,'app_id'=>$std->app_id,'domain'=>$std->domain,'start'=>$std->start,'limit'=>$std->limit);
+        $sync       = curl(URL_API,json_encode($opsi));
+        // print_r($sync);
         $gApp       = json_decode($sync,true);
         $data       = json_decode($gApp['dstyle'], true);
         $status     = $gApp['status'];

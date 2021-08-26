@@ -10,10 +10,10 @@
 	include __DIR__ . '/../class/library.php';
 	// $AppDomain  = AppDomain();
 	// $AppDomain  = $AppDomain['site_name'];
-	$arr        = json_decode(file_get_contents("php://input"));
-	$arr        = json_encode($arr, JSON_UNESCAPED_SLASHES);
-	// print_r($arr);
+	$arr	= json_decode(file_get_contents("php://input"));
+	$arr	= json_encode($arr, JSON_UNESCAPED_SLASHES);
 	$type 	= json_decode($arr);
+	// print_r($type);
 	
 	$domain = $type->domain;
 	$secret = $type->secret;
@@ -21,7 +21,7 @@
 	$start  = $type->start;
 	$limit  = $type->limit;
 	
-	if(empty($type->app_id)){
+	if(empty($appid)){
 		$dummy = '{"lim":{"start":0,"limit":6},"status":0,"uid":"2","dstyle":"{\"theme\":[{\"id\":\"2\",\"nama\":\"Style 2\",\"style\":\"-\",\"klass\":\"dua\",\"pub\":\"Y\"}]}","dproduk":"1","modul":[{"name":"a.DATA TIDAK DITEMUKAN","slug":"none","video":"yPysn7PTTgQ","video2":"bpaR4n2-ywk","className":"","color":"#ef8700"}],"count":"1"}';
 		$dummy = json_decode($dummy);
 		echo json_encode($dummy);
